@@ -16,5 +16,8 @@ payload = {
     }
 }
 
+print("I'm here")
+print(payload)
+
 # http://localhost:8080/restconf/data/cloud-interconnect=the-customer
 # PUT
