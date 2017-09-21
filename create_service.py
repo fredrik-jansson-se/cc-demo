@@ -12,7 +12,7 @@ auth_handler = urllib2.HTTPBasicAuthHandler()
 auth_handler.add_password(realm='restconf',
                           uri=baseUrl,
                           user='admin',
-                          passwd='admin')
+                          passwd=os.environ['nso_pwd'])
 
 opener = urllib2.build_opener(auth_handler, urllib2.HTTPHandler(debuglevel=1))
 urllib2.install_opener(opener)
