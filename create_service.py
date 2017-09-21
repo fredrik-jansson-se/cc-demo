@@ -9,6 +9,7 @@ host = os.environ['nso_host']
 
 baseUrl = host + '/restconf/data'
 auth_handler = urllib2.HTTPBasicAuthHandler()
+print("PWD: ", os.environ['nso_pwd'])
 auth_handler.add_password(realm='restconf',
                           uri=baseUrl,
                           user='admin',
