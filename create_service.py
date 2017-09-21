@@ -23,7 +23,7 @@ tpayload = """{{
     "cloud-interconnect:cloud-interconnect": {{
         "name": "the-customer",
         "dc-esc": "escDMZ",
-        "cloud-esc": "escSJ",
+        "cloud-esc": "escDMZ",
         "cloud-router-public-ip": "{}",
         "cloud-router-private-ip": "{}",
         "cloud-vpc-private-network": "{}",
