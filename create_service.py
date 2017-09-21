@@ -5,6 +5,8 @@ import urllib2
 import json
 import time
 
+
+print("ENV=", os.environ)
 host = os.environ['nso_host']
 
 baseUrl = host + '/restconf/data'
