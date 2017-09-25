@@ -2,25 +2,25 @@
 
 import os
 import urllib2
-import json
-import time
 
 
-host = os.environ['nso_host']
+HOST = os.environ['nso_host']
 
-baseUrl = host + '/restconf/data'
-auth_handler = urllib2.HTTPBasicAuthHandler()
-auth_handler.add_password(realm='restconf',
-                          uri=baseUrl,
+BASE_URL = HOST + '/restconf/data'
+AUTH_HANDLER = urllib2.HTTPBasicAuthHandler()
+AUTH_HANDLER.add_password(realm='restconf',
+                          uri=BASE_URL,
                           user='admin',
                           passwd=os.environ['nso_password'])
 
-opener = urllib2.build_opener(auth_handler, urllib2.HTTPHandler(debuglevel=1))
-urllib2.install_opener(opener)
+OPENER = urllib2.build_opener(AUTH_HANDLER, urllib2.HTTPHandler(debuglevel=1))
+urllib2.install_opener(OPENER)
 
 
-DELREQ = urllib2.Request(baseUrl + '/cloud-interconnect=the-customer',
+DELREQ = urllib2.Request(BASE_URL + '/cloud-interconnect=the-customer',
                          headers={'Accept': 'application/yang-data+json'})
 DELREQ.get_method = lambda: 'DELETE'
-res = opener.open(DELREQ)
-
+try:
+    OPENER.open(DELREQ)
+except urllib2.HTTPError as excp:
+    print("Error: ", excp.reason)
