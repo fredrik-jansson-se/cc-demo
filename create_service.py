@@ -7,23 +7,23 @@ import time
 
 
 print("ENV=", os.environ)
-host = os.environ['nso_host']
+NSO_HOST = os.environ['nso_host']
 
-baseUrl = host + '/restconf/data'
-auth_handler = urllib2.HTTPBasicAuthHandler()
-auth_handler.add_password(realm='restconf',
-                          uri=baseUrl,
+BASE_URL = NSO_HOST + '/restconf/data'
+AUTH_HANDLER = urllib2.HTTPBasicAuthHandler()
+AUTH_HANDLER.add_password(realm='restconf',
+                          uri=BASE_URL,
                           user='admin',
                           passwd=os.environ['nso_password'])
 
-opener = urllib2.build_opener(auth_handler, urllib2.HTTPHandler(debuglevel=1))
-urllib2.install_opener(opener)
+OPENER = urllib2.build_opener(AUTH_HANDLER, urllib2.HTTPHandler(debuglevel=1))
+urllib2.install_opener(OPENER)
 
-tpayload = """{{
+TPAYLOAD = """{{
     "cloud-interconnect:cloud-interconnect": {{
         "name": "the-customer",
         "dc-esc": "escDMZ",
-        "cloud-esc": "escDMZ",
+        "cloud-esc": "escAWS",
         "cloud-router-public-ip": "{}",
         "cloud-router-private-ip": "{}",
         "cloud-vpc-private-network": "{}",
@@ -38,14 +38,14 @@ tpayload = """{{
              os.environ['dc_private_ip'],
              os.environ['dc_private_network'])
 
-PUTREQ = urllib2.Request(baseUrl + '/cloud-interconnect=the-customer',
+PUTREQ = urllib2.Request(BASE_URL + '/cloud-interconnect=the-customer',
                          headers={'Content-Type': 'application/yang-data+json',
                                   'Accept': 'application/yang-data+json'},
-                         data=tpayload)
+                         data=TPAYLOAD)
 PUTREQ.get_method = lambda: 'PUT'
-res = opener.open(PUTREQ)
+OPENER.open(PUTREQ)
 
-REQ = urllib2.Request(baseUrl+'/cloud-interconnect=the-customer/plan/'
+REQ = urllib2.Request(BASE_URL+'/cloud-interconnect=the-customer/plan/'
                       'component=self/state=ready/status',
                       headers={"Accept": "application/yang-data+json"})
 while True:
