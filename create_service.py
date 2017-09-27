@@ -52,6 +52,9 @@ while True:
     TXT = urllib2.urlopen(REQ).read()
     JDATA = json.loads(TXT)
     print(JDATA)
-    if JDATA['cloud-interconnect:status'] == 'reached':
+    status = JDATA['cloud-interconnect:status']
+    if status == 'reached':
         break
+    elif status == 'failed':
+        raise Exception("CloudInterconnect failed")
     time.sleep(5)
